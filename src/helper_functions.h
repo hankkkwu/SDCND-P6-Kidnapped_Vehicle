@@ -84,9 +84,9 @@ inline double * getError(double gt_x, double gt_y, double gt_theta, double pf_x,
  * @param (mu_x, mu_y) the coordinates of the nearest landmarks.
  * @output Multivariate-Gaussian probability density.
  */
-inline double multiv_prob(double sig_x, double sig_y, double x_obs, double y_obs,
+inline double multiv_prob(double std_x, double std_y, double x_obs, double y_obs,
                           double mu_x, double mu_y) {
-  return exp(-((x_obs-mu_x)*(x_obs-mu_x)/(2*sig_x*sig_x) + (y_obs-mu_y)*(y_obs-mu_y)/(2*sig_y*sig_y))) / (2*M_PI*sig_x*sig_y);
+  return exp(-(pow(x_obs - mu_x, 2) / (2 * pow(std_x, 2)) + pow(y_obs - mu_y, 2) / (2 * pow(std_y, 2)))) / (2 * M_PI * std_x * std_y);
 }
 
 /**

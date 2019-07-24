@@ -25,7 +25,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    *   (and others in this file).
    */
   num_particles = 100;  // TODO: Set the number of particles
-  std::default_random_engine gen;   // generates pseudo-random numbers
+  // std::default_random_engine gen;   // generates pseudo-random numbers
 
   double std_x = std[0];
   double std_y = std[1];
@@ -56,7 +56,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    *  http://www.cplusplus.com/reference/random/default_random_engine/
    */
 
-  std::default_random_engine gen;   // generates pseudo-random numbers
+  // std::default_random_engine gen;   // generates pseudo-random numbers
 
   double std_x = std_pos[0];
   double std_y = std_pos[1];
@@ -95,13 +95,14 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
    *   probably find it useful to implement this method and use it as a helper
    *   during the updateWeights phase.
    */
-
-  for (int i = 0; i < observations.size(); ++i){
+  int num_obs = observations.size();
+  int num_pre = predicted.size();
+  for (int i = 0; i < num_obs; ++i){
     // loop through each observation
     double obs_x = observations[i].x;
     double obs_y = observations[i].y;
     double smallest_dist = std::numeric_limits<double>::max();
-    for (int j = 0; j < predicted.size(); ++j){
+    for (int j = 0; j < num_pre; ++j){
        // loop through each predicted measurement
       double pre_x = predicted[j].x;
       double pre_y = predicted[j].y;
@@ -134,6 +135,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
   double std_x = std_landmark[0];
   double std_y = std_landmark[1];
+  int num_obs = observations.size();
+  int num_map = map_landmarks.landmark_list.size();
 
   for (int i = 0; i < num_particles; ++i){
     // Loop through each particle
@@ -143,7 +146,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
     vector<LandmarkObs> predicted;
     vector<LandmarkObs> transformed_obs;
 
-    for (int j = 0; j < observations.size(); ++j){
+    for (int j = 0; j < num_obs; ++j){
       // transform each observation marker from the vehicle's coordinates to the map's coordinates
       LandmarkObs tobs;
       tobs.x = cos(theta) * observations[j].x - sin(theta) * observations[j].y + x;
@@ -151,7 +154,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
       transformed_obs.push_back(tobs);
     }
 
-    for (int m = 0; m < map_landmarks.landmark_list.size(); ++m){
+    for (int m = 0; m < num_map; ++m){
       // Loop through each landmark on the map to find the appropriate landmarks
       double map_x = map_landmarks.landmark_list[m].x_f;
       double map_y = map_landmarks.landmark_list[m].y_f;
@@ -171,8 +174,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
     vector<int> association;
     vector<double> s_x;
     vector<double> s_y;
+    int num_tobs = transformed_obs.size();
     particles[i].weight = 1.0;   // Set weight to 1.0 for multiplying
-    for (int t = 0; t < transformed_obs.size(); ++t){
+    for (int t = 0; t < num_tobs; ++t){
       double x_obs = transformed_obs[t].x;
       double y_obs = transformed_obs[t].y;
       // Using the id in transformed_obs to get the corresponding landmarks x, y position in map
@@ -206,7 +210,7 @@ void ParticleFilter::resample() {
    */
 
   // Method 1: using std::discrete_distribution<int> dist()
-  std::default_random_engine gen;
+  // std::default_random_engine gen;
   std::discrete_distribution<int> dist(weights.begin(), weights.end());
   vector<Particle> resample_p;
 

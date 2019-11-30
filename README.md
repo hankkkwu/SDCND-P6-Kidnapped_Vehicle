@@ -6,7 +6,12 @@ My robot has been kidnapped and transported to a new location! Luckily it has a 
 
 In this project I implemented a 2 dimensional particle filter in C++. My particle filter was given a map and some initial localization information (analogous to what a GPS would provide). At each time step my filter will also get observation and control data.
 
-You can find the project code in [src](https://github.com/hankkkwu/SDCND-P6-Kidnapped_Vehicle/tree/master/src) folder and [video](https://github.com/hankkkwu/SDCND-P6-Kidnapped_Vehicle/blob/master/output_video.mp4) of how my code works in the simulator.
+You can find the project code in [src](https://github.com/hankkkwu/SDCND-P6-Kidnapped_Vehicle/tree/master/src) folder.
+
+Here is how my code works in the simulator:
+
+[![result video](http://img.youtube.com/vi/eWzzlipslVE/0.jpg)](https://www.youtube.com/watch?v=eWzzlipslVE "Kidnapped Vehicle project")
+
 
 ## Running the Code
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
